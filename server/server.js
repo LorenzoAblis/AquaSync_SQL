@@ -93,15 +93,18 @@ app.put("/meets/:meetId", (req, res) => {
 
 // Delete a meet
 app.delete("/meets/:id", (req, res) => {
-    const meetId = req.params.id
-    const q = "DELETE FROM meets WHERE id = ?"
+    const meetId = req.params.id;
+    const meets_q = "DELETE FROM meets WHERE id = ?";
+    const events_q = "DELETE FROM events WHERE meet_id = ?";
+    
+    db.query(events_q, [meetId]);
 
-    db.query(q, [meetId], (error, data) => {
+    db.query(meets_q, [meetId], (error, data) => {
         if (error) return res.json(error);
         return res.json("Book has been deleted");
-    })
-})
+    });
+});
 
 app.listen(5000, () => {
-    console.log("Connected to backend")
-})
+    console.log("Connected to backend");
+});
