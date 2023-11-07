@@ -1,9 +1,10 @@
+import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import axios from "axios";
 
 import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Meets.css";
 import AddMeet from "./AddMeet";
 
@@ -33,8 +34,8 @@ const Meets = () => {
 
   return (
     <>
-      <Container className="d-flex flex-row align-items-center justify-content-center mt-2">
-        <Row className="row row-cols-1 row-cols-md-2 row-cols-lg-3 row-cols-xl-4 g-4">
+      <Container className="d-flex flex-wrap align-items-center justify-content-center mt-2">
+        <Row>
           {meets.map((meet) => (
             <Col key={meet.id}>
               <Card className="text-white p-1 shadow-lg m-2">
@@ -52,15 +53,15 @@ const Meets = () => {
                       variant="outline-danger"
                       onClick={() => handleDelete(meet.id)}
                     >
-                      Delete
+                      <i className="bi bi-trash-fill"></i>
                     </Button>
                   </div>
                 </Card.Body>
               </Card>
             </Col>
           ))}
+
           <AddMeet></AddMeet>
-          
         </Row>
       </Container>
     </>

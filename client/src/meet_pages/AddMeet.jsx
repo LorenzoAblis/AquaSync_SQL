@@ -1,20 +1,21 @@
-import { useState } from "react";
-import { Modal, Button, Form, Alert } from "react-bootstrap";
 import axios from "axios";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+import { Modal, Button, Form, Alert } from "react-bootstrap";
+
 const AddMeet = () => {
+  const navigate = useNavigate();
+
   const [showModal, setShowModal] = useState(false);
+  const [showAlert, setShowAlert] = useState(false);
+
   const [newMeet, setNewMeet] = useState({
     name: "",
     location: "",
     date: "",
     opponent: "",
   });
-
-  const [showAlert, setShowAlert] = useState(false);
-
-  const navigate = useNavigate();
 
   const handleClose = () => {
     setShowModal(false);
@@ -26,7 +27,12 @@ const AddMeet = () => {
   const handleClick = async (e) => {
     e.preventDefault();
 
-    if (!newMeet.name || !newMeet.location || !newMeet.date || !newMeet.opponent) {
+    if (
+      !newMeet.name ||
+      !newMeet.location ||
+      !newMeet.date ||
+      !newMeet.opponent
+    ) {
       setShowAlert(true);
       return;
     }
@@ -50,6 +56,24 @@ const AddMeet = () => {
     setNewMeet((prev) => ({ ...prev, [e.target.name]: e.target.value }));
   };
 
+  // TODO: Delete when done
+  const handleDev = async () => {
+    setNewMeet({
+      name: "Test Meeting",
+      location: "1234 Main St.",
+      date: "2022-09-07T18:00:00Z",
+      opponent: "Opponent Name",
+    });
+
+    try {
+      await axios.post("http://localhost:5000/meets", newMeet);
+      navigate("/");
+      handleClose();
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   return (
     <>
       <Button variant="success" onClick={handleShow}>
@@ -57,9 +81,14 @@ const AddMeet = () => {
       </Button>
 
       <Modal show={showModal} onHide={handleClose}>
-      <Alert variant="danger" show={showAlert} onClose={() => setShowAlert(false)} dismissible>
-        All fields are required!
-      </Alert>
+        <Alert
+          variant="danger"
+          show={showAlert}
+          onClose={() => setShowAlert(false)}
+          dismissible
+        >
+          All fields are required!
+        </Alert>
         <Modal.Header closeButton>
           <Modal.Title>Add Meet</Modal.Title>
         </Modal.Header>
@@ -100,6 +129,9 @@ const AddMeet = () => {
           </Form>
         </Modal.Body>
         <Modal.Footer>
+          <Button variant="outline-info" onClick={handleDev}>
+            Dev
+          </Button>
           <Button variant="secondary" onClick={handleClose}>
             Close
           </Button>
@@ -108,10 +140,8 @@ const AddMeet = () => {
           </Button>
         </Modal.Footer>
       </Modal>
-      
     </>
   );
 };
 
 export default AddMeet;
-
