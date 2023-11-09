@@ -1,7 +1,6 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import MeetsView from "./meet_pages/Meets";
-import ViewMeet from "./meet_pages/ViewMeet";
-import AddEvent from "./event_pages/AddEvent";
+import MeetsView from "./meets/MeetsPage";
+import ViewMeet from "./meets/ViewMeetPage";
 
 function App() {
   return(
@@ -9,7 +8,6 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<MeetsView/>}/>
-          <Route path="/add-event" element={<AddEvent/>}/>
           <Route path="/view-meet/:meetId" element={<ViewMeet/>}/>
         </Routes>
       </BrowserRouter>

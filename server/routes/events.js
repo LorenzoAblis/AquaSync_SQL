@@ -1,7 +1,7 @@
 const express = require("express");
 const mysql = require("mysql");
 
-const router = express.Router;
+const router = express.Router();
 
 const db = mysql.createConnection({
     host: "localhost",
@@ -11,18 +11,19 @@ const db = mysql.createConnection({
 });
 
 // Fetches all events for a meet
-router.get("/events", (req, res) => {
-    const q = "SELECT * FROM events"
-    db.query(q, (error, data) => {
+router.get("/:meetId", (req, res) => {
+    const meetId = req.params.meetId;
+    const q = "SELECT * FROM events WHERE meet_id = ?";
+
+    db.query(q, [meetId], (error, data) => {
         if (error) return res.json(error);
         return res.json(data);
     });
 });
 
 // Fetches a single event
-router.get("/events/:eventId", (req, res) => {
+router.get("/:eventId", (req, res) => {
     const eventId = req.params.eventId;
-    // TODO: Check if event_id is the actual key for event id
     const q = "SELECT * FROM events WHERE event_id = ?";
 
     db.query(q, [eventId], (error, data) => {
@@ -32,8 +33,7 @@ router.get("/events/:eventId", (req, res) => {
 });
 
 // Creates an event
-router.post("/events", (req, res) => {
-    // meet_id is relational so event can only be created if meet_id exists in meets table
+router.post("/", (req, res) => {
     const q = "INSERT INTO events (`meet_id`, `stroke`, `distance`, `time`) VALUES (?)";
     const values = [
         req.body.meet_id,
@@ -48,30 +48,15 @@ router.post("/events", (req, res) => {
     });
 });
 
-// TODO: Update an event
-
-// app.put("/meets/:meetId", (req, res) => {
-//     const meetId = req.params.meetId;
-//     const q = "UPDATE meets SET `name` = ?, `location` = ?, `date` = ?, `opponent` = ? WHERE id = ?";
-//     const values = [
-//         req.body.name,
-//         req.body.location,
-//         req.body.date,
-//         req.body.opponent,
-//     ];
-    
-//     db.query(q, [...values, meetId], (error, data) => {
-//         if (error) return res.json(error);
-//         return res.json("Event");
-//     });
-// });
-
-router.put("/events/:eventId", (req, res) => {
+// Updates an event
+router.put("/:eventId", (req, res) => {
     const eventId = req.params.eventId;
-    // TODO: Find the actual keys for the event table
-    const q = "UPDATE events SET";
+    const q = "UPDATE events SET `stroke` = ?, `distance` = ?, `time` = ? WHERE event_id = ?";
     const values = [
-        req.body
+        req.body.stroke,
+        req.body.location,
+        req.body.date,
+        req.body.opponent,
     ];
 
     db.query(q, [...values, eventId], (error, data) => {
@@ -80,7 +65,16 @@ router.put("/events/:eventId", (req, res) => {
     });
 });
 
-// TODO: Delete an event
+// Deletes an event
+router.delete("/:eventId", (req, res) => {
+    const eventId = req.params.eventId;
+    const q = "DELETE FROM events WHERE event_id = ?";
+
+    db.query(q, [eventId], (error, data) => {
+        if (error) return res.json(error);
+        return res.json("Event Deleted");
+    });
+});
 
 
 

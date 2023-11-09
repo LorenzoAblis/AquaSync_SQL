@@ -1,7 +1,7 @@
 const express = require("express");
 const cors = require("cors");
-const meetsRouter = require("./meets");
-const eventsRouter = require("./events");
+const meetsRouter = require("./routes/meets");
+const eventsRouter = require("./routes/events");
 
 const app = express();
 
@@ -10,8 +10,6 @@ app.use(cors());
 
 app.use("/meets", meetsRouter);
 app.use("/events", eventsRouter);
-
-// TODO: Install Higlight extension into vscode
 
 app.listen(5000, () => {
     console.log("Connected to backend");
