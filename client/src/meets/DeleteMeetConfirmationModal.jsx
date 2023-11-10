@@ -3,6 +3,9 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
 import { Modal, Button } from "react-bootstrap";
+import toast from "react-hot-toast";
+
+
 
 const DeleteMeetConfirmationModal = (props) => {
   const {
@@ -25,6 +28,7 @@ const DeleteMeetConfirmationModal = (props) => {
       setShowDeleteConfirmation(false);
       setMeetId("");
       navigate("/");
+      toast.success("Meet successfully deleted!");
     } catch (error) {
       console.error(error);
     }

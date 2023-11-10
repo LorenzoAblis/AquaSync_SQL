@@ -10,6 +10,8 @@ import AddEventModal from "../events/AddEventModal";
 import EditMeetModal from "./EditMeetModal";
 import { Container, Card, Button } from "react-bootstrap";
 
+
+
 const ViewMeet = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -40,12 +42,15 @@ const ViewMeet = () => {
     }
   };
 
-  const handleEdit = () => setShowEditMeetModal(!showEditMeetModal);
+  const handleEdit = () => {
+    setShowEditMeetModal(!showEditMeetModal);
+    fetchMeet();
+  };
   const handleAdd = () => setShowAddEventModal(!showAddEventModal);
 
   return (
     <>
-      <Container className="mt-4">
+      <Container className="mt-4 w-50">
         <Card className="mx-auto text-white shadow-lg">
           <Card.Body>
             <div className="d-flex">

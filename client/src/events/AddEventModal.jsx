@@ -4,6 +4,8 @@ import { useState } from "react";
 
 import { Modal, Alert, Form, Button } from "react-bootstrap";
 
+// TODO: Add a Toast to alert the user the event has been added
+
 const AddEventModal = (props) => {
   const { meetId, showAddEventModal, setShowAddEventModal } = props;
 

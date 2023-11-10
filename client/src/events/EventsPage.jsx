@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import axios from "axios";
 import { useState, useEffect } from "react";
 
-import { ListGroup } from "react-bootstrap";
+import { ListGroup, Button } from "react-bootstrap";
 
 const Events = (props) => {
   const { meetId } = props;
@@ -25,10 +25,20 @@ const Events = (props) => {
 
   return (
     <>
-      <ListGroup>
+      <ListGroup className="">
         {events.map((event) => (
           <ListGroup.Item key={event.event_id}>
-            {event.stroke}, {event.distance}, {event.time}
+            <div className="d-flex flex-row justify-content-between">
+              <h5 className="mt-2 w-50">
+                <strong>
+                  {event.distance}m {event.stroke}
+                </strong>
+              </h5>
+              <div className="d-flex flex-row justify-content-between w-50">
+                <p>{event.time}</p>
+                <Button variant="secondary">View</Button>
+              </div>
+            </div>
           </ListGroup.Item>
         ))}
       </ListGroup>
