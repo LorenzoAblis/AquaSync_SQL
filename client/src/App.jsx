@@ -3,16 +3,16 @@ import MeetsView from "./meets/MeetsPage";
 import ViewMeet from "./meets/ViewMeetPage";
 
 function App() {
-  return(
+  return (
     <div>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<MeetsView/>}/>
-          <Route path="/view-meet/:meetId" element={<ViewMeet/>}/>
+          <Route path="/" element={<MeetsView />} />
+          <Route path="/view-meet/:meetId" element={<ViewMeet />} />
         </Routes>
       </BrowserRouter>
     </div>
-  )
+  );
 }
 
 export default App;

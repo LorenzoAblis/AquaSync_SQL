@@ -5,7 +5,14 @@ import { Toaster } from "react-hot-toast";
 
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-      <App />
-      <Toaster/>
+    <App />
+    <Toaster
+      toastOptions={{
+        success: {
+          duration: 2000,
+          position: "top-right",
+        },
+      }}
+    />
   </React.StrictMode>
 );

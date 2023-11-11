@@ -1,16 +1,14 @@
 import axios from "axios";
-import { useState, useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
 import "./ViewMeet.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
-import Events from "../events/EventsPage";
-import AddEventModal from "../events/AddEventModal";
 import EditMeetModal from "./EditMeetModal";
-import { Container, Card, Button } from "react-bootstrap";
-
-
+import AddEventModal from "../events/AddEventModal";
+import EditEventModal from "../events/EditEventModal";
+import { Container, Card, Button, ListGroup } from "react-bootstrap";
 
 const ViewMeet = () => {
   const location = useLocation();
@@ -18,8 +16,11 @@ const ViewMeet = () => {
 
   const meetId = location.pathname.split("/")[2];
 
+  const [events, setEvents] = useState([]);
+
   const [showEditMeetModal, setShowEditMeetModal] = useState(false);
   const [showAddEventModal, setShowAddEventModal] = useState(false);
+  const [showEditEventModal, setShowEditEventModal] = useState(false);
 
   const [meet, setMeet] = useState({
     name: "",
@@ -28,9 +29,12 @@ const ViewMeet = () => {
     opponent: "",
   });
 
-  useEffect(() => {
-    fetchMeet();
-  }, []);
+  const [selectedEvent, setSelectedEvent] = useState({
+    event_id: "",
+    stroke: "",
+    distance: 0,
+    time: "",
+  });
 
   const fetchMeet = async () => {
     try {
@@ -42,11 +46,31 @@ const ViewMeet = () => {
     }
   };
 
-  const handleEdit = () => {
-    setShowEditMeetModal(!showEditMeetModal);
+  const fetchEvents = async () => {
+    try {
+      const res = await axios.get(`http://localhost:5000/events/${meetId}`);
+      setEvents(res.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleEditMeet = () => {
+    setShowEditMeetModal(true);
     fetchMeet();
   };
-  const handleAdd = () => setShowAddEventModal(!showAddEventModal);
+
+  const handleEditEvent = (event) => {
+    setSelectedEvent(event);
+    setShowEditEventModal(true);
+  };
+
+  const handleAddEvent = () => setShowAddEventModal(true);
+
+  useEffect(() => {
+    fetchMeet();
+    fetchEvents();
+  }, []);
 
   return (
     <>
@@ -61,7 +85,7 @@ const ViewMeet = () => {
               >
                 Go Back
               </Button>
-              <Button variant="success" onClick={handleEdit}>
+              <Button variant="success" onClick={handleEditMeet}>
                 <i className="bi bi-pencil-square"></i>
               </Button>
             </div>
@@ -83,11 +107,33 @@ const ViewMeet = () => {
 
             <div className="mt-5 mb-3 d-flex">
               <h3 style={{ marginRight: "10px" }}>Events</h3>
-              <Button variant="success" onClick={handleAdd}>
+              <Button variant="success" onClick={handleAddEvent}>
                 <i className="bi bi-plus-square"></i>
               </Button>
             </div>
-            <Events meetId={meetId}></Events>
+
+            <ListGroup className="">
+              {events.map((event) => (
+                <ListGroup.Item key={event.event_id}>
+                  <div className="d-flex flex-row justify-content-between mt-2">
+                    <h5 className="w-50">
+                      <strong>
+                        {event.distance}m {event.stroke}
+                      </strong>
+                    </h5>
+                    <div className="d-flex flex-row justify-content-between w-50">
+                      <p>{event.time}</p>
+                      <Button
+                        variant="success"
+                        onClick={() => handleEditEvent(event)}
+                      >
+                        Edit
+                      </Button>
+                    </div>
+                  </div>
+                </ListGroup.Item>
+              ))}
+            </ListGroup>
           </Card.Body>
         </Card>
       </Container>
@@ -97,13 +143,21 @@ const ViewMeet = () => {
         showEditMeetModal={showEditMeetModal}
         setShowEditMeetModal={setShowEditMeetModal}
         fetchMeet={fetchMeet}
-      ></EditMeetModal>
+      />
 
       <AddEventModal
         meetId={meetId}
         showAddEventModal={showAddEventModal}
         setShowAddEventModal={setShowAddEventModal}
-      ></AddEventModal>
+        fetchEvents={fetchEvents}
+      />
+
+      <EditEventModal
+        selectedEvent={selectedEvent}
+        showEditEventModal={showEditEventModal}
+        setShowEditEventModal={setShowEditEventModal}
+        fetchEvents={fetchEvents}
+      />
     </>
   );
 };

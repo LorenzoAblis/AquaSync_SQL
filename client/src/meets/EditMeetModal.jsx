@@ -4,8 +4,7 @@ import { useState, useEffect } from "react";
 
 import DeleteMeetConfirmationModal from "./DeleteMeetConfirmationModal";
 import { Modal, Alert, Form, Button } from "react-bootstrap";
-
-// TODO: Add a Toast to alert the user the meet has been edited
+import toast from "react-hot-toast";
 
 const EditMeetModal = (props) => {
   const { meet, showEditMeetModal, setShowEditMeetModal, fetchMeet } = props;
@@ -20,15 +19,6 @@ const EditMeetModal = (props) => {
     date: "",
     opponent: "",
   });
-
-  useEffect(() => {
-    setEdittedMeet({
-      name: meet.name,
-      location: meet.location,
-      date: meet.date,
-      opponent: meet.opponent,
-    });
-  }, [meet]);
 
   const handleClose = () => {
     setShowEditMeetModal(false);
@@ -66,10 +56,20 @@ const EditMeetModal = (props) => {
       fetchMeet();
       setShowEditMeetModal(false);
       handleClose();
+      toast.success("Meet successfully edited!");
     } catch (error) {
       console.error(error);
     }
   };
+
+  useEffect(() => {
+    setEdittedMeet({
+      name: meet.name,
+      location: meet.location,
+      date: meet.date,
+      opponent: meet.opponent,
+    });
+  }, [meet]);
 
   return (
     <>
@@ -147,7 +147,7 @@ const EditMeetModal = (props) => {
         setMeetId={setMeetIdToBeDeleted}
         showDeleteConfirmation={showDeleteConfirmation}
         setShowDeleteConfirmation={setShowDeleteConfirmation}
-      ></DeleteMeetConfirmationModal>
+      />
     </>
   );
 };

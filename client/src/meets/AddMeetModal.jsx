@@ -5,8 +5,6 @@ import { useNavigate } from "react-router-dom";
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import toast from "react-hot-toast";
 
-
-
 const AddMeet = () => {
   const navigate = useNavigate();
 

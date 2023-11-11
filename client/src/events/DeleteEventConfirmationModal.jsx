@@ -1,32 +1,30 @@
 import PropTypes from "prop-types";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
 
 import { Modal, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 
-const DeleteMeetConfirmationModal = (props) => {
+const DeleteEventConfirmationModal = (props) => {
   const {
-    meetId,
-    setMeetId,
+    eventIdToBeDeleted,
+    setEventIdToBeDeleted,
     showDeleteConfirmation,
     setShowDeleteConfirmation,
+    fetchEvents,
   } = props;
-
-  const navigate = useNavigate();
 
   const handleCancel = () => {
     setShowDeleteConfirmation(false);
-    setMeetId("");
+    setEventIdToBeDeleted("");
   };
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:5000/meets/" + id);
+      await axios.delete("http://localhost:5000/events/" + id);
       setShowDeleteConfirmation(false);
-      setMeetId("");
-      navigate("/");
-      toast.success("Meet successfully deleted!");
+      setEventIdToBeDeleted("");
+      fetchEvents();
+      toast.success("Event successfully deleted!");
     } catch (error) {
       console.error(error);
     }
@@ -36,7 +34,7 @@ const DeleteMeetConfirmationModal = (props) => {
     <>
       <Modal show={showDeleteConfirmation} onHide={handleCancel}>
         <Modal.Header closeButton>
-          <Modal.Title>Delete Meet</Modal.Title>
+          <Modal.Title>Delete Event</Modal.Title>
         </Modal.Header>
         <Modal.Body>
           Are you sure you want to delete this meet? This action is
@@ -47,7 +45,10 @@ const DeleteMeetConfirmationModal = (props) => {
           <Button variant="secondary" onClick={handleCancel}>
             Cancel
           </Button>
-          <Button variant="outline-danger" onClick={() => handleDelete(meetId)}>
+          <Button
+            variant="outline-danger"
+            onClick={() => handleDelete(eventIdToBeDeleted)}
+          >
             Delete
           </Button>
         </Modal.Footer>
@@ -56,11 +57,12 @@ const DeleteMeetConfirmationModal = (props) => {
   );
 };
 
-DeleteMeetConfirmationModal.propTypes = {
-  meetId: PropTypes.string.isRequired,
-  setMeetId: PropTypes.func.isRequired,
+DeleteEventConfirmationModal.propTypes = {
+  eventIdToBeDeleted: PropTypes.string.isRequired,
+  setEventIdToBeDeleted: PropTypes.func.isRequired,
   showDeleteConfirmation: PropTypes.bool.isRequired,
   setShowDeleteConfirmation: PropTypes.func.isRequired,
+  fetchEvents: PropTypes.func.isRequired,
 };
 
-export default DeleteMeetConfirmationModal;
+export default DeleteEventConfirmationModal;

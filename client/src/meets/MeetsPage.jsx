@@ -2,17 +2,22 @@ import axios from "axios";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
-import { Card, Button, Container, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "./Meets.css";
 import AddMeet from "./AddMeetModal";
 import DeleteMeetConfirmationModal from "./DeleteMeetConfirmationModal";
+import { Card, Button, Container, Row, Col } from "react-bootstrap";
 
 const Meets = () => {
   const [meets, setMeets] = useState([]);
   const [showDeleteConfirmation, setShowDeleteConfirmation] = useState(false);
   const [meetIdToBeDeleted, setMeetIdToBeDeleted] = useState("");
+
+  const handleDelete = (id) => {
+    setShowDeleteConfirmation(!showDeleteConfirmation);
+    setMeetIdToBeDeleted(id);
+  };
 
   useEffect(() => {
     const fetchAllMeets = async () => {
@@ -26,11 +31,6 @@ const Meets = () => {
 
     fetchAllMeets();
   });
-
-  const handleDelete = (id) => {
-    setShowDeleteConfirmation(!showDeleteConfirmation);
-    setMeetIdToBeDeleted(id);
-  };
 
   return (
     <>
@@ -61,13 +61,13 @@ const Meets = () => {
             </Col>
           ))}
 
-          <AddMeet></AddMeet>
+          <AddMeet />
           <DeleteMeetConfirmationModal
             meetId={meetIdToBeDeleted}
             setMeetId={setMeetIdToBeDeleted}
             showDeleteConfirmation={showDeleteConfirmation}
             setShowDeleteConfirmation={setShowDeleteConfirmation}
-          ></DeleteMeetConfirmationModal>
+          />
         </Row>
       </Container>
     </>
