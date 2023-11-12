@@ -9,6 +9,7 @@ import EditMeetModal from "./EditMeetModal";
 import AddEventModal from "../events/AddEventModal";
 import EditEventModal from "../events/EditEventModal";
 import { Container, Card, Button, ListGroup } from "react-bootstrap";
+import toast from "react-hot-toast";
 
 const ViewMeet = () => {
   const location = useLocation();
@@ -38,20 +39,19 @@ const ViewMeet = () => {
 
   const fetchMeet = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/meets/${meetId}`);
-
+      const res = await axios.get(`http://localhost:5000/api/meets/${meetId}`);
       setMeet(res.data[0]);
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to fetch meet!\n\n${error}`);
     }
   };
 
   const fetchEvents = async () => {
     try {
-      const res = await axios.get(`http://localhost:5000/events/${meetId}`);
+      const res = await axios.get(`http://localhost:5000/api/events/${meetId}`);
       setEvents(res.data);
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to fetch events!\n\n${error}`);
     }
   };
 

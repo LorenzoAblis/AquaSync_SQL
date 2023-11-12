@@ -12,6 +12,10 @@ ReactDOM.createRoot(document.getElementById("root")).render(
           duration: 2000,
           position: "top-right",
         },
+        error: {
+          duration: 4000,
+          position: "top-right",
+        },
       }}
     />
   </React.StrictMode>

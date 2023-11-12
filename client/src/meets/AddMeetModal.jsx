@@ -39,7 +39,7 @@ const AddMeet = () => {
     }
 
     try {
-      await axios.post("http://localhost:5000/meets", newMeet);
+      await axios.post("http://localhost:5000/api/meets", newMeet);
       setNewMeet({
         name: "",
         location: "",
@@ -50,7 +50,7 @@ const AddMeet = () => {
       handleClose();
       toast.success("Meet successfully added!");
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to add meet! \n\n${error}`);
     }
   };
 
@@ -68,7 +68,7 @@ const AddMeet = () => {
     });
 
     try {
-      await axios.post("http://localhost:5000/meets", newMeet);
+      await axios.post("http://localhost:5000/api/meets", newMeet);
       navigate("/");
       handleClose();
     } catch (error) {

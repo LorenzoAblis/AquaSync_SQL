@@ -5,10 +5,9 @@ import { useState } from "react";
 import { Modal, Alert, Form, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 
-
-
 const AddEventModal = (props) => {
-  const { meetId, showAddEventModal, setShowAddEventModal, fetchEvents } = props;
+  const { meetId, showAddEventModal, setShowAddEventModal, fetchEvents } =
+    props;
 
   const [showAlert, setShowAlert] = useState(false);
 
@@ -32,13 +31,13 @@ const AddEventModal = (props) => {
     }
 
     try {
-      await axios.post("http://localhost:5000/events", newEvent);
+      await axios.post("http://localhost:5000/api/events", newEvent);
       toast.success("Event successfully added!");
       fetchEvents();
       setShowAddEventModal(false);
       handleClose();
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to add event! \n\n${error}`);
     }
   };
 

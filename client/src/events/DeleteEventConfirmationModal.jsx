@@ -20,13 +20,13 @@ const DeleteEventConfirmationModal = (props) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:5000/events/" + id);
+      await axios.delete("http://localhost:5000/api/events/" + id);
       setShowDeleteConfirmation(false);
       setEventIdToBeDeleted("");
       fetchEvents();
       toast.success("Event successfully deleted!");
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to delete event! \n\n${error}`);
     }
   };
 

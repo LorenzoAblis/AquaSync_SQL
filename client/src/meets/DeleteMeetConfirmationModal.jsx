@@ -22,13 +22,13 @@ const DeleteMeetConfirmationModal = (props) => {
 
   const handleDelete = async (id) => {
     try {
-      await axios.delete("http://localhost:5000/meets/" + id);
+      await axios.delete("http://localhost:5000/api/meets/" + id);
       setShowDeleteConfirmation(false);
       setMeetId("");
       navigate("/");
       toast.success("Meet successfully deleted!");
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to delete meet! \n\n${error}`);
     }
   };
 

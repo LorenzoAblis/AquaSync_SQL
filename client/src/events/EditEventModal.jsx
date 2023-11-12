@@ -48,7 +48,7 @@ const EditEventModal = (props) => {
 
     try {
       await axios.put(
-        "http://localhost:5000/events/" + selectedEvent.event_id,
+        "http://localhost:5000/api/events/" + selectedEvent.event_id,
         edittedEvent
       );
       fetchEvents();
@@ -56,7 +56,7 @@ const EditEventModal = (props) => {
       handleClose();
       toast.success("Meet successfully edited!");
     } catch (error) {
-      console.error(error);
+      toast.error(`Failed to edit event! \n\n${error}`);
     }
   };
 
