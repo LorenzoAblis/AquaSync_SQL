@@ -1,13 +1,22 @@
 body {
-    background-color: #004346;
+  background-color: #508991;
+}
+
+.meets-title {
+  font-size: 75px;
+}
+
+.add-button,
+.filter-button {
+  font-size: 18px;
 }
 
 .card {
-    background-color: #172A3A;
-    min-height: 250px;
-    min-width: 250px;
+  background-color: #172a3a;
+  min-height: 250px;
+  width: 26rem;
 }
 
-
-
-
+.meet-name {
+  font-size: 100px;
+}

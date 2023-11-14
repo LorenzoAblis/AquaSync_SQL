@@ -1,14 +1,15 @@
 import axios from "axios";
+import PropTypes from "prop-types";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { Modal, Button, Form, Alert } from "react-bootstrap";
 import toast from "react-hot-toast";
 
-const AddMeet = () => {
+const AddMeetModal = (props) => {
+  const { showAddMeet, setShowAddMeet } = props;
   const navigate = useNavigate();
 
-  const [showModal, setShowModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
 
   const [newMeet, setNewMeet] = useState({
@@ -19,11 +20,9 @@ const AddMeet = () => {
   });
 
   const handleClose = () => {
-    setShowModal(false);
+    setShowAddMeet(false);
     setShowAlert(false);
   };
-
-  const handleShow = () => setShowModal(true);
 
   const handleClick = async (e) => {
     e.preventDefault();
@@ -78,11 +77,7 @@ const AddMeet = () => {
 
   return (
     <>
-      <Button variant="success" onClick={handleShow}>
-        Add Meet
-      </Button>
-
-      <Modal show={showModal} onHide={handleClose}>
+      <Modal show={showAddMeet} onHide={handleClose}>
         <Alert
           variant="danger"
           show={showAlert}
@@ -146,4 +141,9 @@ const AddMeet = () => {
   );
 };
 
-export default AddMeet;
+AddMeetModal.propTypes = {
+  showAddMeet: PropTypes.bool.isRequired,
+  setShowAddMeet: PropTypes.func.isRequired,
+};
+
+export default AddMeetModal;
