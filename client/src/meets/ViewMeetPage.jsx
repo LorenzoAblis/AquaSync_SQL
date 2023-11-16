@@ -11,6 +11,8 @@ import EditEventModal from "../events/EditEventModal";
 import { Container, Card, Button, ListGroup } from "react-bootstrap";
 import toast from "react-hot-toast";
 
+// TODO: Add specific meet name when deleting a meet
+
 const ViewMeet = () => {
   const location = useLocation();
   const navigate = useNavigate();

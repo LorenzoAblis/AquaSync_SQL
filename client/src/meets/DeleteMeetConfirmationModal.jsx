@@ -9,6 +9,8 @@ const DeleteMeetConfirmationModal = (props) => {
   const {
     meetId,
     setMeetId,
+    meetName,
+    setMeetName,
     showDeleteConfirmation,
     setShowDeleteConfirmation,
   } = props;
@@ -18,6 +20,7 @@ const DeleteMeetConfirmationModal = (props) => {
   const handleCancel = () => {
     setShowDeleteConfirmation(false);
     setMeetId("");
+    setMeetName("");
   };
 
   const handleDelete = async (id) => {
@@ -25,6 +28,7 @@ const DeleteMeetConfirmationModal = (props) => {
       await axios.delete("http://localhost:5000/api/meets/" + id);
       setShowDeleteConfirmation(false);
       setMeetId("");
+      setMeetName("");
       navigate("/");
       toast.success("Meet successfully deleted!");
     } catch (error) {
@@ -39,7 +43,7 @@ const DeleteMeetConfirmationModal = (props) => {
           <Modal.Title>Delete Meet</Modal.Title>
         </Modal.Header>
         <Modal.Body>
-          Are you sure you want to delete this meet? This action is
+          Are you sure you want to delete <strong>{meetName}</strong>? This action is
           <br />
           <strong>irreversible</strong>.
         </Modal.Body>
@@ -59,6 +63,8 @@ const DeleteMeetConfirmationModal = (props) => {
 DeleteMeetConfirmationModal.propTypes = {
   meetId: PropTypes.string.isRequired,
   setMeetId: PropTypes.func.isRequired,
+  meetName: PropTypes.string.isRequired,
+  setMeetName: PropTypes.func.isRequired,
   showDeleteConfirmation: PropTypes.bool.isRequired,
   setShowDeleteConfirmation: PropTypes.func.isRequired,
 };

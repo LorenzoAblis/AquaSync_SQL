@@ -6,6 +6,8 @@ import DeleteMeetConfirmationModal from "./DeleteMeetConfirmationModal";
 import { Modal, Alert, Form, Button } from "react-bootstrap";
 import toast from "react-hot-toast";
 
+// TODO: Add specific meet name when deleting a meet
+
 const EditMeetModal = (props) => {
   const { meet, showEditMeetModal, setShowEditMeetModal, fetchMeet } = props;
 
@@ -145,6 +147,7 @@ const EditMeetModal = (props) => {
       <DeleteMeetConfirmationModal
         meetId={meetIdToBeDeleted}
         setMeetId={setMeetIdToBeDeleted}
+        meetName={meet.name}
         showDeleteConfirmation={showDeleteConfirmation}
         setShowDeleteConfirmation={setShowDeleteConfirmation}
       />
